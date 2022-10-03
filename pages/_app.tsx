@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
+    // @ts-ignore
     <SessionProvider session={pageProps.session}>
       <Component {...pageProps} />
     </SessionProvider>
