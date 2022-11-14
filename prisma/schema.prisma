@@ -57,6 +57,32 @@ model User {
   sessions      Session[]
 }
 
+model Image {
+  id                String           @id @default(cuid())
+  url               String
+  // 存储位置
+  key               String
+  name              String?
+  exif              String?
+  desc              String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  published         Boolean          @default(true)
+  ImageCollective   ImageCollective? @relation(fields: [imageCollectiveId], references: [id])
+  imageCollectiveId String?
+}
+
+model ImageCollective {
+  id        String   @id @default(cuid())
+  name      String
+  cover     String
+  desc      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(true)
+  images    Image[]
+}
+
 model VerificationToken {
   id         Int      @id @default(autoincrement())
   identifier String

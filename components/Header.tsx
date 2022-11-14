@@ -158,6 +158,11 @@ const Header: React.FC = () => {
             <a>New post</a>
           </button>
         </Link>
+        <Link href="/collective">
+          <button>
+            <a>New ImageSet</a>
+          </button>
+        </Link>
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>

@@ -12,34 +12,29 @@ export const getStaticProps: GetStaticProps = async () => {
         select: { name: true },
       },
     },
-  });
+  }); 
+  const images = await prisma.image.findMany({});
   return {
-    props: { feed },
+    props: {
+      feed,
+      images: images.map((image) => {
+        return { ...image, 
+          createdAt: new Date(image.createdAt).getTime(),
+          updatedAt: new Date(image.updatedAt).getTime(),
+        };
+      }),
+    },
     revalidate: 10,
   };
-  // const feed = [
-  //   {
-  //     id: "1",
-  //     title: "Prisma is the perfect ORM for Next.js",
-  //     content: "[Prisma](https://github.com/prisma/prisma) and Next.js go _great_ together!",
-  //     published: false,
-  //     author: {
-  //       name: "Nikolas Burk",
-  //       email: "burk@prisma.io",
-  //     },
-  //   },
-  // ]
-  // return { 
-  //   props: { feed }, 
-  //   revalidate: 10 
-  // }
 }
 
 type Props = {
   feed: PostProps[]
+  images: {id:string; url:string}[]
 }
 
 const Blog: React.FC<Props> = (props) => {
+  console.log(props)
   return (
     <Layout>
       <div className="page">
@@ -49,6 +44,11 @@ const Blog: React.FC<Props> = (props) => {
             <div key={post.id} className="post">
               <Post post={post} />
             </div>
+            
+          ))}
+          <div>helo</div>
+          {props.images && props.images.map((item) => (
+            <img key={item.id} src={`${item.url}-thumb_400x400`} style={{width: '300', height: '400'}} />
           ))}
         </main>
       </div>
